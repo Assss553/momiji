@@ -11,11 +11,12 @@ jobs:
         with:
           distribution: temurin
           java-version: 17
-      - name: Install NDK and CMake
+      - name: Install Android tools
         run: |
-          SDKM="$ANDROID_HOME/cmdline-tools/latest/bin/sdkmanager"
-          yes | "$SDKM" --licenses > /dev/null || true
-          "$SDKM" "ndk;26.1.10909125" "cmake;3.22.1"
+          SDKM="$(command -v sdkmanager || echo "$ANDROID_HOME/cmdline-tools/latest/bin/sdkmanager")"
+          yes | sudo env "JAVA_HOME=$JAVA_HOME" "$SDKM" --sdk_root="$ANDROID_HOME" --licenses > /dev/null || true
+          sudo env "JAVA_HOME=$JAVA_HOME" "$SDKM" --sdk_root="$ANDROID_HOME" "platforms;android-36" "build-tools;35.0.0" "ndk;26.1.10909125" "cmake;3.22.1"
+          sudo chmod -R a+rwX "$ANDROID_HOME"
       - name: Build
         working-directory: android
         run: |
