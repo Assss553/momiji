@@ -121,6 +121,7 @@ class StreamActivity : AppCompatActivity(), View.OnSystemUiVisibilityChangeListe
 
 		binding = ActivityStreamBinding.inflate(layoutInflater)
 		setContentView(binding.root)
+		com.metallic.chiaki.rox.RoxPanel(this, binding.root, listOf(binding.surfaceView, binding.debandSurfaceView))
 		window.decorView.setOnSystemUiVisibilityChangeListener(this)
 
 		viewModel.onScreenControlsVisible.observe(this, Observer {
